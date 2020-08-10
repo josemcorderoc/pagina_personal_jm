@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Yo</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="José Miguel Cordero">
+    <meta name="keywords" content="photo, chile">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/slicknav.min.css"/>
+    <link rel="stylesheet" href="css/fresco.css"/>
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="https://kit.fontawesome.com/7302a60ea2.js" crossorigin="anonymous"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        .header .navbar {
+            background-color: transparent !important;
+        }
+        .cryptedmail:after {
+            content: attr(data-name) "@" attr(data-domain) "." attr(data-tld);
+        }
+        .pinky {
+            color: white;
+        }
+
+    </style>
+
+</head>
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Header Section -->
+<header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand">JM</a>
+        <button class="navbar-toggler" style="border-color: transparent;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon">
+				<i class="fas fa-bars" style="color:#fff; font-size:28px; "></i>
+			</span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link active"  href="./">Sobre mí</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Fotos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="./estallido.html">Estado de excepción (Santiago de Chile, 2019)</a>
+                        <a class="dropdown-item" href="#">Neón (pŕoximamente)</a>
+<!--                        <div class="dropdown-divider"></div>-->
+<!--                        <a class="dropdown-item" href="#">Foto aleatoria (próximamente)</a>-->
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<!-- Header Section end -->
+<div class="container   ">
+    <div class="row">
+        <div class="col-lg-4">
+            <h3 class="mb-2 text-white">Sobre mí</h3>
+            <p>Hola! Soy <b>José Miguel Cordero</b>, estudiante de ingeniería en computación del
+                <a class="pinky" href="https://www.dcc.uchile.cl/">DCC</a>. Por aquí subo principalmente fotos.</p>
+            <i class="far fa-envelope mr-1"></i>
+            <a href="#" class="cryptedmail pinky"
+               data-name="jcordero"
+               data-domain="dcc.uchile"
+               data-tld="cl"
+               onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;"></a>
+
+        </div></div></div>
+
+
+
+<!-- Footer Section -->
+<footer class="footer__section">
+    <div class="container">
+
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        <div class="footer__copyright__text">
+            <p><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a> <br>  El contenido de esta página está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional</a> | Plantilla hecha por <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
+        </div>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </div>
+</footer>
+<!-- Footer Section end -->
+
+<!-- Search Begin -->
+<!--	<div class="search-model">-->
+<!--		<div class="h-100 d-flex align-items-center justify-content-center">-->
+<!--			<div class="search-close-switch">+</div>-->
+<!--			<form class="search-model-form">-->
+<!--				<input type="text" id="search-input" placeholder="Search here.....">-->
+<!--			</form>-->
+<!--		</div>-->
+<!--	</div>-->
+<!-- Search End -->
+
+<!--====== Javascripts & Jquery ======-->
+<script src="js/vendor/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="js/jquery.slicknav.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/fresco.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
