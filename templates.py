@@ -26,17 +26,21 @@ def sobre_mi():
     save_static_html('index.html', 'sobre_mi.html', context)
 
 
-def estallido_social():
-    images_df = pd.read_csv('data/photos/estallido.csv')
+def gallery(photos_csv_path, title, filename):
+    images_df = pd.read_csv(photos_csv_path)
     images_df['date'] = pd.to_datetime(images_df['date'], format="%d/%m/%Y")
     images_df['date_str'] = images_df['date'].dt.strftime("%d/%m/%Y")
     images = images_df.sort_values(by='date').to_dict(orient='records')
     context = {
-        'title': 'Estado de excepción (Santiago de Chile, 2019)',
+        'title': title,
         'active': {'fotos': True},
         'images': images
     }
-    save_static_html('estallido.html', 'galeria.html', context)
+    save_static_html(filename, 'galeria.html', context)
+
+
+def estallido_social():
+    gallery('data/photos/estallido.csv', 'Estado de excepción (Santiago de Chile, 2019)', 'estallido.html')
 
 
 if __name__ == '__main__':
