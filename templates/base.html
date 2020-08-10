@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-    <title>Yo</title>
+    <title>{{ title }}</title>
     <meta charset="UTF-8">
     <meta name="description" content="José Miguel Cordero">
     <meta name="keywords" content="photo, chile">
@@ -58,10 +58,10 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link active"  href="./">Sobre mí</a></li>
+                <li class="nav-item"><a class="nav-link {% if active.sobre_mi %}active{% endif %}"  href="./">Sobre mí</a></li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {% if active.fotos %}active{% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Fotos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -76,20 +76,8 @@
     </nav>
 </header>
 <!-- Header Section end -->
-<div class="container   ">
-    <div class="row">
-        <div class="col-lg-4">
-            <h3 class="mb-2 text-white">Sobre mí</h3>
-            <p>Hola! Soy <b>José Miguel Cordero</b>, estudiante de ingeniería en computación del
-                <a class="pinky" href="https://www.dcc.uchile.cl/">DCC</a>. Por aquí subo principalmente fotos.</p>
-            <i class="far fa-envelope mr-1"></i>
-            <a href="#" class="cryptedmail pinky"
-               data-name="jcordero"
-               data-domain="dcc.uchile"
-               data-tld="cl"
-               onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;"></a>
-
-        </div></div></div>
+{% block main_content %}
+{% endblock %}
 
 
 
@@ -105,17 +93,6 @@
     </div>
 </footer>
 <!-- Footer Section end -->
-
-<!-- Search Begin -->
-<!--	<div class="search-model">-->
-<!--		<div class="h-100 d-flex align-items-center justify-content-center">-->
-<!--			<div class="search-close-switch">+</div>-->
-<!--			<form class="search-model-form">-->
-<!--				<input type="text" id="search-input" placeholder="Search here.....">-->
-<!--			</form>-->
-<!--		</div>-->
-<!--	</div>-->
-<!-- Search End -->
 
 <!--====== Javascripts & Jquery ======-->
 <script src="js/vendor/jquery-3.2.1.min.js"></script>
