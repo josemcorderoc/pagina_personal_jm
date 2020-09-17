@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa de calor - Ñuñoa</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+
+
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        #map { height: 600px; }
+
+        .loader {
+            border: 3px solid #f3f3f3; /* Light grey */
+            border-top: 3px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="map"></div>
+
+
+<div class="m-3">
+    <h5>Mapa de calor territorial de Ñuñoa (2020)</h5>
+    <small><label for="estado"><b>Estado:</b></label> <span id="estado" class="mr-2"></span><div id="status-icon" class="loader d-inline-block"></div></small>
+    <br>
+    <p>
+        Visualice un mapa de calor de la densidad habitacional en la comuna de Ñuñoa seleccionando un
+        <u>rango de edad</u> y/o uno o más <u>sexos</u> para filtrar (información de 2020).
+    </p>
+    <p>
+        Al cambiar un valor de consulta, el mapa se actualizará automáticamente. También se indica la candidad de
+        gente que abarca la búsqueda realizada, tanto en número como en porcentaje respecto al total del Padrón Servel
+        (195.466 habitantes).
+    </p>
+    <label for="amount">Rango de edad:</label>
+    <input type="text" id="amount" readonly style="border:0; font-weight:bold;">
+    <div id="slider-range"></div>
+
+    <div class="mt-3">
+        <input type="checkbox" id="mujeres" checked> <label class="mr-5" for="mujeres">Mujeres</label>
+        <input type="checkbox" id="hombres" checked> <label for="hombres">Hombres</label>
+    </div>
+
+    <label for="amount">Población abarcada en la selección:</label>
+    <input type="text" id="poblacion" readonly style="border:0; font-weight:bold;">
+
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
+<script src="http://leaflet.github.io/Leaflet.markercluster/example/realworld.10000.js"></script>
+<script src="https://gmousse.github.io/dataframe-js/dist/dataframe.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<script>
+
+
+    $(document).ready(function() {
+        // map init
+        $("#estado").html("Cargando datos");
+        var map = L.map('map').setView([-33.459132, -70.606894], 13);
+        var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // slider init
+        $( "#slider-range" ).slider({
+            range: true,
+            min: 18,
+            max: 90,
+            values: [ 18, 25 ],
+            slide: function( event, ui ) {
+                $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+            },
+        });
+        $("#amount").val($("#slider-range").slider( "values", 0 ) + " - " + $("#slider-range").slider( "values", 1 ) );
+
+        // start loading data
+        var DataFrame = dfjs.DataFrame;
+
+        var df = DataFrame.fromCSV('http://ollascomuneschile.cl/assets/data/71d2ae48-0f81-4815-a568-abc4bf41a234.csv')
+            .then(df => {
+
+                df.show();
+                $("#estado").html("Preparado. Ingrese una consulta...");
+                $("#status-icon").removeClass("loader");
+                var heat = null;
+                function nunoa_heatmap(min_age, max_age, hombres, mujeres) {
+
+                    if (heat !== null) {
+                        map.removeLayer(heat);
+                    }
+                    var sexos = [];
+                    if (hombres) {
+                        sexos.push("VARON");
+                    }
+                    if (mujeres) {
+                        sexos.push("MUJER");
+                    }
+                    console.log(sexos);
+                    var data = df.filter(
+                            row => row.get('edad') >= min_age && row.get('edad') <= max_age && sexos.includes(row.get('sexo'))
+                        ).select('lat','lon').toArray();
+                    $("#poblacion").val(data.length + " (" + (data.length*100/195466).toFixed(2)+"%)");
+                    heat = L.heatLayer(
+                        data,
+                        {
+                            min_opacity:0.2,
+                            radius:9,
+                            blur:10
+                        }).addTo(map);
+                    $("#estado").html("Preparado. Ingrese una consulta...");
+                }
+                $("#slider-range").on("slidechange", function (event, ui) {
+                    $("#estado").html("En espera");
+                    nunoa_heatmap(ui.values[0], ui.values[1], $("#hombres").is(':checked'), $("#mujeres").is(':checked'));
+                });
+                $("#hombres, #mujeres").change(function () {
+                    $("#estado").html("En espera");
+                    nunoa_heatmap(
+                        $('#slider-range').slider("values")[0],
+                        $('#slider-range').slider("values")[1],
+                        $("#hombres").is(':checked'),
+                        $("#mujeres").is(':checked')
+                    )
+                })
+
+
+            });
+
+
+
+
+
+
+
+    });
+</script>
+
+</body>
+</html>
