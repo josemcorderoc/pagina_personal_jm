@@ -46,7 +46,3 @@ def estallido_social():
 if __name__ == '__main__':
     sobre_mi()
     estallido_social()
-
-
-# git reset --hard
-# git pull
